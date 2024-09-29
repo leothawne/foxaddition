@@ -1,0 +1,763 @@
+# ------------------------------------------------------------------------------------------- #
+#              ______                        _      _  _  _    _                              #
+#              |  ____|             /\       | |    | |(_)| |  (_)                            #
+#              | |__  ___ __  __   /  \    __| |  __| | _ | |_  _   ___   _ __                #
+#              |  __|/ _ \\ \/ /  / /\ \  / _` | / _` || || __|| | / _ \ | '_ \               #
+#              | |  | (_) |>  <  / ____ \| (_| || (_| || || |_ | || (_) || | | |              #
+#              |_|   \___//_/\_\/_/    \_\\__,_| \__,_||_| \__||_| \___/ |_| |_|              #
+#                                                                                             #
+#                                          [v1.2.2]                                           #
+#                                                                                             #
+# ------------------------------------------------------------------------------------------- #
+# [QUICK TIP #1]
+# For all checks, include the following:
+#
+# enable:
+#   # Do you want to detect this check to Java players?
+#   # Default if Bedrock Support is not hooked.
+#   java: true
+#   # Do you want to detect this check to Bedrock players?
+#   bedrock: true
+#
+# With this, you can specify the player types you want to check: Java or Bedrock players.
+# If you don't have Bedrock Support enabled, this option will have no effect and will detect both
+# with the option 'java' in true.
+# ------------------------------------------------------------------------------------------- #
+# [QUICK TIP #2]
+# For all category of checks, this include the following:
+#
+#  # Optionally, disable this check in specific worlds.
+#  disabled-worlds: {}
+#
+# This allow you to exclude in what worlds you want to disable X category of checks.
+# But, how is the format? The format is like this:
+#
+# disabled-worlds:
+# - Auth
+# - LuckyWars
+#
+# In that, you can add more worlds to exclude or exclude a single world, if you want
+# disable this feature, only set the value with '{}'.
+# ------------------------------------------------------------------------------------------- #
+# If you still has questions, you can join to the discord server in:
+# https://discord.com/invite/FTtVXfj or you can use the Discussion page in https://www.spigotmc.org/threads/612025/.
+
+# BadPckets
+# Prevent hacks related to irregular packets.
+badpackets:
+    # Optionally, disable this category in specific worlds.
+    disabled-worlds: {}
+    # List of modules.
+    modules:
+    
+        # Prevent players from interact and break blocks
+        # through blocks for some types of minigames: SkyWars,
+        # BedWars and more.
+        packets:
+        
+            # Type A
+            # Sending BlockDig with invalid directions.
+            a:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 8
+            # Type B
+            # Player sending InteractEntity with invalid ID:
+            # interacting self or invalid ID.
+            b:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 5
+            # Type C
+            # Invalid moving forward and sideway with a vehicle.
+            c:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Determine maxium value in the movement in
+                # the directions.
+                forward: 0.9800000190734863
+                sideway: 0.9800000190734863
+                # Eject player when this is detected?
+                eject: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 3
+            # Type D
+            # Player sending held item packet with same slot ID.
+            d:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                # WARNING! Some checks of another anticheats can probably false
+                # flags by cancelling this event, we recommend you enable this if
+                # another anticheat that you use is compatible with this.
+                cancel: false
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 4
+            # Type E
+            # Player sending held item packet with invalid slot ID.
+            # WARNING! This already cancel the packet when is detected.
+            e:
+               # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 4
+            # Type F
+            # Invalid jump boost in an entity action packet.
+            f:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Eject player when this is detected?
+                eject: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 3
+            # Type G
+            # Prevent player from interact/actions when this is dead or sleeping.
+            g:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 5
+            # Type H
+            # Prevent player from sending flying packet in a streak.
+            h:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Determine the maxium streak for get detected
+                # for this check.
+                max: 20
+                # Add VLs (Violation Levels) to apply when this check fails.
+                # (Better make this kick instantly if is necessary)
+                vls: 10
+       
+    # The decay is used to configure the decay system for VLS (Violation Levels).
+    # Decay is a mechanism that gradually reduces a player's VLS over time.
+    decay:
+        # Enable this feature?
+        enable: true
+        # Determines how often the decay process runs (in seconds).
+        interval: 5
+        # Specifies the amount of VLS to subtract from a player's VLS
+        # in each decay.
+        amount: 3
+    # Violation Thresholds
+    commands:
+        3: 'foxaddition notify &e{player}&r is sending any type of &a&lBAD PACKET&r.'
+        5: 'foxaddition notify &e{player}&r might be using hacks of &a&lBAD PACKET&r.'
+        8:
+        - 'foxaddition notify &e{player}&r has been removed for probably &a&lBAD PACKET&r.'
+        - 'kick {player} Irregular sending packets.'
+
+# World
+# Prevent hacks related to world modifications.
+world:
+    # Optionally, disable this category in specific worlds.
+    disabled-worlds: {}
+    # List of modules.
+    modules:
+    
+        # Prevent players from interact and break blocks
+        # through blocks for some types of minigames: SkyWars,
+        # BedWars and more.
+        breakaura:
+            # Kick the player when is detected?
+            # Player get kicked from the server if is detected for any
+            # time of break aura. This is useful if you want kick directly
+            # hack players.
+            kick: true
+            # Enable detectiong of BedAura?
+            bed:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 4
+            # Enable detectiong of ChestAura?
+            chest:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Cancel this action when is detected?
+                cancel: true
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 4
+    
+        # Prevent nuker hacks or related.
+        nuker:
+            # Prevent player from breaks and send packets of breaks
+            # if this is dead. This can fix a little exploit in
+            # older versions with this type of hacks.
+            dead: true
+            # Kick the player when is detected?
+            # Some owners want kick the player fast when is detected
+            # because Nuker. Probably you can get false flags with this,
+            # but with a better configuration, this can be the best
+            # option.
+            #
+            # WARNING! Disabled with default because you can get false
+            # flags some times.
+            kick: false
+            # Check only for certain types of blocks?
+            # This can be optional to use.
+            blocklist:
+                # Enable this feature?
+                enable: false
+                # Define the type of usage to this list.
+                # 'whitelist': Allow the detection for only certain blocks.
+                # 'blacklist': Deny the detection in certain types of blocks.
+                type: whitelist
+                # Define here the blocks to whitelist/blacklist here.
+                list:
+                - SUGAR_CANE
+            # Should it block forced the breakings on detect?
+            # This by default cancel the packets/breaks, but you can make a force
+            # cancel to block better this, if you enable this, you allow the anticheat
+            # to attempt in block breakings until the player stop of breaking.
+            force_cancel:
+                # Enable this feature?
+                # [EXTREMELY RECOMMENDED]
+                enable: true
+                # Define here the MilliSeconds (MS) to block the breaking.
+                # This MS reset the time when the player break again a block.
+                # Example:
+                #
+                # X = Is the time in MS of this option.
+                #
+                # The player is detected, this set the time to X.
+                # If the player break a block, this reset to X, but
+                # if the time pass and the player don't break a block,
+                # the player can break again.
+                ms: 215
+            # Prevent the flood of dig packet on break this check.
+            # Normally, a Nuker hack send a lot of this packet to break
+            # instantly the block, but this can be falsed easy if the
+            # config is bad configured. We recommend you change this
+            # values to find a perfect config.
+            flood:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Determine here the max amount in 1 second.
+                # This can help a lot if the player use a instant-nuker hack
+                # that breaks the blocks in the instant.
+                max: 20
+                # Should block packets when detected?
+                cancel:
+                    # Enable this feature?
+                    # Enable this also to make force_cancel works,
+                    # by default, this only cancel the moment, if you
+                    # want make a force block, enable this and the
+                    # option force_cancel.
+                    enable: true
+                    # In what vl this start to cancel?
+                    # Define '0' to start cancel everytime.
+                    vl: 0
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 4
+            # Prevent the player from breaking blocks in impossible angle.
+            # Bad nuker hacks breaks the blocks without targeting it. This can
+            # catch faster bad nukers and lowly  in nukers very worked. This
+            # don't has a knowed falses flags, recommended to enable.
+            angle:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Values to edit depending on the edition.
+                values:
+                    java:
+                        # Minimum distance in the XZ plane between the block being broken and
+                        # the target block. This avoid problems related the distance in 3D view,
+                        # because some players can break blocks in blocks too nearly with different
+                        # Angle/3D view.
+                        plane_distance: 1.42
+                        # Maxium distance in the 3D space between the block being broken and
+                        # the target block. This value ensures that players are not breaking blocks
+                        # that are too far away, which would be impossible under normal circumstances.
+                        3d_distance: 3.0
+                    bedrock:
+                        # Allow FoxAddition only apply this values to some devices with touch screen?
+                        # If the player doesn't play in any of this devices, this go to use "Java" values
+                        # to detect. But... why? This values is for touch screens, probably this can be
+                        # false flagged in touch screen devices, so, I recommend this, because Win32 (W10 edition,
+                        # example), players ~probably~ can't rarely break blocks.
+                        #
+                        # WARNING! This option need Floodgate and "device" option enabled in settings.yml,
+                        # or this go to ignore this option and use "Java" values.
+                        devices:
+                            android: true
+                            ios: true
+                            osx: true
+                            amazon: true
+                            gearvr: false
+                            hololens: false
+                            uwp: false
+                            win32: false
+                            dedicated: false
+                            ps4: false
+                            nx: false
+                            tvos: false
+                            linux: false
+                            windowsphone: true
+                            linux: false
+                            xbox: false
+                            unknown: false #In case an unknown device is detected.
+                            java: false #If the player rarely get java device.
+                        # Minimum distance in the XZ plane between the block being broken and
+                        # the target block. This avoid problems related the distance in 3D view,
+                        # because some players can break blocks in blocks too nearly with different
+                        # Angle/3D view.
+                        plane_distance: 90.0
+                        # Maxium distance in the 3D space between the block being broken and
+                        # the target block. This value ensures that players are not breaking blocks
+                        # that are too far away, which would be impossible under normal circumstances.
+                        3d_distance: 90.0
+                # Should block packets when detected?
+                cancel:
+                    # Enable this feature?
+                    # Enable this also to make force_cancel works,
+                    # by default, this only cancel the moment, if you
+                    # want make a force block, enable this and the
+                    # option force_cancel.
+                    enable: true
+                    # In what vl this start to cancel?
+                    # Define '0' to start cancel everytime.
+                    vl: 0
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 2
+                
+    # The decay is used to configure the decay system for VLS (Violation Levels).
+    # Decay is a mechanism that gradually reduces a player's VLS over time.
+    decay:
+        # Enable this feature?
+        enable: true
+        # Determines how often the decay process runs (in seconds).
+        interval: 4
+        # Specifies the amount of VLS to subtract from a player's VLS
+        # in each decay.
+        amount: 4
+    # Violation Thresholds
+    commands:
+        4: 'foxaddition notify &e{player}&r is not interacting correctly with the &a&lWORLD&r.'
+        8: 'foxaddition notify &e{player}&r might be using hacks of &a&lWORLD&r.'
+        12:
+        - 'foxaddition notify &e{player}&r has been removed for probably &a&lWORLD&r hack.'
+        - 'kick {player} Irregular mechanics with the world.'
+                
+
+# Mechanics.
+# This prevents players from attempting actions that are not possible within the Minecraft protocol, maintaining the
+# integrity of the game mechanics. Legitimate users are unlikely to trigger these checks. Various types of crashers, disablers,
+# or hacks can be detected, providing valuable support to the primary anti-cheat system or your anti-crash/anti-exploit
+# plugin.
+#
+# (Instant kick): How does this work?
+# This feature forces the server to immediately kick the player using packets (utilizing ProtocolLib). In cases where this
+# option fails, it resorts to using Bukkit actions for a standard disconnection. The aim is to swiftly remove the player from
+# the game to prevent any attempts at crashing or causing issues. If this option is disabled within a check, the system will
+# resort to using the violation level (VL) system. Additionally, a delay has been implemented for each flag in this check to
+# prevent issues stemming from excessive VLs.
+#
+# REMEMBER! Vanilla 1.8 is utilized to ensure adherence to its mechanics, with some inspiration drawn from the specifications
+# outlined in https://wiki.vg/Protocol. Should you encounter a false flag or error, disable the check and report it on the Discord
+# server for support, if necessary.
+mechanics:
+    # Optionally, disable this category in specific worlds.
+    disabled-worlds: {}
+    # List of modules.
+    modules:
+    
+        # Checks for global packets.
+        global:
+            # Prevent from receive this packet when the player is
+            # offline.
+            offline: true
+            # Determine here the maxium velocity from a shot with the bow.
+            max_velocity: 15.0
+            # Prevent players from login with a invalid ip.
+            prevent_nulladdress: true
+            
+        # Checks for invalid abilities value.
+        # This can prevent players from sending invalid values when this
+        # cannot send. This can prevent some fake flight hacks (vanilla fly)
+        # and some types of fake creative.
+        #
+        # WARNING! Disable the checks that can cause problems in case you
+        # has false flags, this only try to follow a little logic and
+        # is don't tested with some plugins. This only has been tested with:
+        #
+        # - Essentials
+        # - InfiniteJump
+        # - SimpleFly
+        abilities:
+            # Determine here the max amount of packets sended in one second
+            # to starting cancelling all packets related in seconds. When a
+            # second passed, this clear the amount and start again checking.
+            #
+            # This probably can flag some types of hacks or crashers.
+            amount:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Determine here the max amount.
+                max: 5
+                # Kick the player when fail? (Instant kick)
+                # The packet is cancelled, but if the server still crash
+                # without this, enable this.
+                kick: false
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 4
+            # Enable onground option?
+            # To prevent some false flags, you can set this value to
+            # true to only check if the player is on ground. This help a
+            # lot if you have a plugin with double or infinite jumps, if
+            # you don't have, you can disable this to make a better
+            # control of this packet.
+            onground: false
+            # Check to prevent hacks or disablers.
+            # This try to follow a little logic. Probably can be wrong from my
+            # part, but you can disable the X check, if you has problems.
+            checks:
+                # Prevent player from send "AllowedFlight" packet when
+                # this cannot use in that moment. This probably can
+                # have problems with some plugins, if this is the
+                # case, disable here. Probably other plugins can
+                # control better this exploit/packet, but this is an
+                # additional in case if any other plugin that you use
+                # don't control this. This can prevent some types of
+                # disablers.
+                allowedflight:
+                    # Enable this feature?
+                    enable:
+                        java: true
+                        bedrock: true
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 4
+                # Prevent player from send value "creativeMode" when this isn't
+                # in creative mode. This can prevent some types of exploits or
+                # disablers. None much relevant.
+                creativemode:
+                    # Enable this feature?
+                    enable:
+                        java: true
+                        bedrock: true
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 2
+                    
+        # Checks for invalid block place packet.
+        # This prevent some types of disablers and exploits in the gameplay,
+        # probably this is patched in new versions, but can be useful in
+        # older versions.
+        blockplace:
+            # Determine here the max amount of packets sended in one second
+            # to starting cancelling all packets related in seconds. When a
+            # second passed, this clear the amount and start again checking.
+            #
+            # This probably can flag some types of hacks or crashers.
+            amount:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Determine here the max amount.
+                max: 15
+                # Kick the player when fail? (Instant kick)
+                # The packet is cancelled, but if the server still crash
+                # without this, enable this.
+                kick: false
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 1
+            # Here you can find some checks moved here because this use now
+            # packet and don't use Bukkit Events for a better protection and
+            # fast block. This can also block some disablers.
+            checks:
+                # Prevent player from sending an invalid block position, this
+                # can be useful to prevent crash clients and disablers. Probably
+                # this can be patched in new versions, you can still use this
+                # to prevent in older versions.
+                invalid:
+                    # Enable this feature?
+                    # This apply in both editions.
+                    enable:
+                        nan: true
+                        infinite: true
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if the server still crash
+                    # without this, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 1
+           
+        # Checks for invalid KeepAlive value.
+        # This can prevent some types of crashers and disablers, this use
+        # use some parts of my project "FoxPatcher". This also can prevent
+        # some cracked clients or bad clients.
+        keepalive:
+            # Determine here the max amount of packets sended in one second
+            # to starting cancelling all packets related in seconds. When a
+            # second passed, this clear the amount and start again checking.
+            #
+            # This probably can flag some types of disablers or crashers.
+            amount:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Determine here the max amount.
+                max: 10
+                # Kick the player when fail? (Instant kick)
+                # The packet is cancelled, but if the server still crash
+                # without this, enable this.
+                kick: false
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 4
+            # Checks to prevent potential hacks or disablers.
+            # The ID only increase in a positive value and don't is negative
+            # in vanilla clients. FoxAddition go try to follow Vanilla Client
+            # protocol.
+            #
+            # This also, try to follow the protocol:
+            # https://wiki.vg/Protocol#Clientbound_Keep_Alive_.28configuration.29
+            checks:
+                # Prevent player from sending a decreased keep alive id.
+                # This cancel the decreased keep alive id.
+                decreasing:
+                    # Enable this feature?
+                    enable:
+                        java: true
+                        bedrock: true
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 1
+
+        # Checks for invalid Mechanics in position.
+        # This can prevent some types of crashers, disablers and hacks, this
+        # use some parts of my project "FoxPatcher".
+        position:
+            # Determine here the max amount of packets sended in one second
+            # to starting cancelling all packets related in seconds. When a
+            # second passed, this clear the amount and start again checking.
+            #
+            # This probably can flag Blink/Timer hacks and probably, some types
+            # of disablers/crashers.
+            amount:
+                # Enable this feature?
+                enable:
+                    java: true
+                    bedrock: true
+                # Determine here the max amount.
+                max: 350
+                # Kick the player when fail? (Instant kick)
+                # The packet is cancelled, but if the server still crash
+                # without this, enable this.
+                kick: false
+                # Add VLs (Violation Levels) to apply when this check fails.
+                vls: 2
+            # Disconnect player if this is not in a perfect status and
+            # this try send movement event.
+            # This can prevent GodMode exploit or similar.
+            invalidmove: true
+            # Eject player if this is in a vehicle but this
+            # is invalid.
+            invalidvehicle: true
+            # Prevent the player from moving if the chunk is null.
+            nullchunk: true
+            # Prevent the player from moving with PullBack.
+            # This check prevent player from moving Y directly without
+            # a safe change of position. Example of a PullBack hack:
+            #
+            # Old Y: 69.265...
+            # New Y: 70.265...
+            # (directly or too many fast in move above)
+            #
+            # A legit player:
+            #
+            # Old Y: 69.265...
+            # New Y:
+            # - 69.596...
+            # - 69.903...
+            # - 70.265...
+            #
+            # This check also can detect some types of Fly, Step and VClip,
+            # but can generate false flags, this don't has vls, only setback.
+            # WARNING! If you use a plugin for jumppads or double jump (etc.),
+            # disable this check, because you can get false flags too easy.
+            pullback:
+                # Enable this feature?
+                enable:
+                    java: false
+                    bedrock: false
+                # Determine default values for speed Y change.
+                # You can use this to determine new Y value is too big
+                # than old Y value. Perfect for detection of VClip and
+                # fast-Y flight hacks or extended Y step.
+                #
+                # How this works?
+                #
+                # Remember this vars:
+                # y = new Y value.
+                # oldY = old Y value.
+                # additional = values in nosprint, increase in case the player sprint.
+                #
+                # "y > oldY+additional"
+                nosprint: 1.08
+                sprint: .31 # (This increase value of nosprint option when sprint)
+                # Determine here default PullBack value.
+                #
+                # How this works?
+                #
+                # "oldY-y"
+                default: -1.0
+            # Checks to prevent potential hacks/disablers/crashers.
+            checks:
+                # Prevent player from send an high value in X/Y/Z position.
+                # This can probably detect some types of crashers that make
+                # the player load chunks too fast. I recommend enable kick
+                # in case the player is spamming Y location and this don't
+                # force setback.
+                #
+                # WARNING! Some forks like FlamePaper (tested in 2.0.4) breaks
+                # this check. For that issue, this is disabled by default.
+                fast:
+                    # Enable this feature?
+                    enable:
+                        java: false
+                        bedrock: false
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Determine the max value of moving for this.
+                    # Recommended the default values.
+                    x: 50
+                    y: 25
+                    z: 50
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 1
+                # Check for invalid Infinite value.
+                # This verify if the X, Y or Z is an infinite value to cancel
+                # the packet. This also probably detect some types of disablers
+                # and crashers.
+                infinite:
+                    # Enable this feature?
+                    enable:
+                        java: true
+                        bedrock: true
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 1
+                # Check for invalid position value.
+                # This verify if the X, Y or Z is an invalid or big value to
+                # starting preventing this packet. This also probably detect
+                # some types of disablers and crashers.
+                max:
+                    # Enable this feature?
+                    enable:
+                        java: true
+                        bedrock: true
+                    # Define here the values, you can increase and decrease
+                    # to view what is a better value, if you increase, you can
+                    # allow max range for the position and a less value, can
+                    # make more aggresive.
+                    x: 2.9999999E7D
+                    y: 3.0E7
+                    z: 2.9999999E7D
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 1
+                # Checks for invalid NaN value.
+                # This can prevent some types of crashers.
+                nan:
+                    # Enable this feature?
+                    enable:
+                        java: true
+                        bedrock: true
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 1
+                # Check for invalid yaw/pitch.
+                # This verify yaw/pitch value to see if this is incorrect.
+                yawpitch:
+                    # Enable this feature?
+                    enable:
+                        java: true
+                        bedrock: true
+                    # Kick the player when fail? (Instant kick)
+                    # The packet is cancelled, but if you want still kick
+                    # the player when this occurrs, enable this.
+                    kick: false
+                    # Add VLs (Violation Levels) to apply when this check fails.
+                    vls: 2
+
+    # The decay is used to configure the decay system for VLS (Violation Levels).
+    # Decay is a mechanism that gradually reduces a player's VLS over time.
+    decay:
+        # Enable this feature?
+        enable: true
+        # Determines how often the decay process runs (in seconds).
+        interval: 5
+        # Specifies the amount of VLS to subtract from a player's VLS
+        # in each decay.
+        amount: 4
+    # Violation Thresholds
+    commands:
+        4: 'foxaddition notify &e{player}&r probably not following the &a&lMECHANICS&r.'
+        6: 'foxaddition notify &e{player}&r is not following the &a&lMECHANICS&r.'
+        8:
+        - 'foxaddition notify &e{player}&r has been removed for not following the &a&lMECHANICS&r.'
+        - 'kick {player} Irregular actions or mechanics.'
