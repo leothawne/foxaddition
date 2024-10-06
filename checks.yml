@@ -50,9 +50,7 @@ badpackets:
     # List of modules.
     modules:
     
-        # Prevent players from interact and break blocks
-        # through blocks for some types of minigames: SkyWars,
-        # BedWars and more.
+        # Prevent players from sending invalid packets.
         packets:
         
             # Type A
@@ -65,7 +63,7 @@ badpackets:
                 # Cancel this action when is detected?
                 cancel: true
                 # Add VLs (Violation Levels) to apply when this check fails.
-                vls: 8
+                vls: 5
             # Type B
             # Player sending InteractEntity with invalid ID:
             # interacting self or invalid ID.
@@ -144,7 +142,7 @@ badpackets:
                 # Add VLs (Violation Levels) to apply when this check fails.
                 vls: 5
             # Type H
-            # Prevent player from sending flying packet in a streak.
+            # Prevent player from send bad swing order.
             h:
                 # Enable this feature?
                 enable:
@@ -152,12 +150,8 @@ badpackets:
                     bedrock: true
                 # Cancel this action when is detected?
                 cancel: true
-                # Determine the maxium streak for get detected
-                # for this check.
-                max: 20
                 # Add VLs (Violation Levels) to apply when this check fails.
-                # (Better make this kick instantly if is necessary)
-                vls: 10
+                vls: 2
        
     # The decay is used to configure the decay system for VLS (Violation Levels).
     # Decay is a mechanism that gradually reduces a player's VLS over time.
@@ -200,6 +194,27 @@ world:
                 enable:
                     java: true
                     bedrock: true
+                # Exempts from check if the player don't has the
+                # conditions. This feature can prevent false flags
+                # from laggy users but ~probably~ can make
+                # bypass.
+                conditions:
+                    # Enable conditions to don't detect players
+                    # for: Bad ping.
+                    ping:
+                        # Enable this feature?
+                        enable: true
+                        # What is the maxium value to ignore
+                        # player in case is laggy.
+                        maxium: 1000
+                    # Enable conditions to don't detect players
+                    # for: Bad TPS.
+                    tps:
+                        # Enable this feature?
+                        enable: true
+                        # What is the minium TPS to starting
+                        # ignore player.
+                        minium: 15.0
                 # Cancel this action when is detected?
                 cancel: true
                 # Add VLs (Violation Levels) to apply when this check fails.
@@ -210,6 +225,27 @@ world:
                 enable:
                     java: true
                     bedrock: true
+                # Exempts from check if the player don't has the
+                # conditions. This feature can prevent false flags
+                # from laggy users but ~probably~ can make
+                # bypass.
+                conditions:
+                    # Enable conditions to don't detect players
+                    # for: Bad ping.
+                    ping:
+                        # Enable this feature?
+                        enable: true
+                        # What is the maxium value to ignore
+                        # player in case is laggy.
+                        maxium: 1000
+                    # Enable conditions to don't detect players
+                    # for: Bad TPS.
+                    tps:
+                        # Enable this feature?
+                        enable: true
+                        # What is the minium TPS to starting
+                        # ignore player.
+                        minium: 15.0
                 # Cancel this action when is detected?
                 cancel: true
                 # Add VLs (Violation Levels) to apply when this check fails.
@@ -271,6 +307,27 @@ world:
                 enable:
                     java: true
                     bedrock: true
+                # Exempts from check if the player don't has the
+                # conditions. This feature can prevent false flags
+                # from laggy users but ~probably~ can make
+                # bypass.
+                conditions:
+                    # Enable conditions to don't detect players
+                    # for: Bad ping.
+                    ping:
+                        # Enable this feature?
+                        enable: false
+                        # What is the maxium value to ignore
+                        # player in case is laggy.
+                        maxium: 1500
+                    # Enable conditions to don't detect players
+                    # for: Bad TPS.
+                    tps:
+                        # Enable this feature?
+                        enable: true
+                        # What is the minium TPS to starting
+                        # ignore player.
+                        minium: 15.0
                 # Determine here the max amount in 1 second.
                 # This can help a lot if the player use a instant-nuker hack
                 # that breaks the blocks in the instant.
@@ -297,6 +354,27 @@ world:
                 enable:
                     java: true
                     bedrock: true
+                # Exempts from check if the player don't has the
+                # conditions. This feature can prevent false flags
+                # from laggy users but ~probably~ can make
+                # bypass.
+                conditions:
+                    # Enable conditions to don't detect players
+                    # for: Bad ping.
+                    ping:
+                        # Enable this feature?
+                        enable: true
+                        # What is the maxium value to ignore
+                        # player in case is laggy.
+                        maxium: 1200
+                    # Enable conditions to don't detect players
+                    # for: Bad TPS.
+                    tps:
+                        # Enable this feature?
+                        enable: true
+                        # What is the minium TPS to starting
+                        # ignore player.
+                        minium: 15.0
                 # Values to edit depending on the edition.
                 values:
                     java:
@@ -470,6 +548,9 @@ mechanics:
                     # The packet is cancelled, but if you want still kick
                     # the player when this occurrs, enable this.
                     kick: false
+                    # Ignore players with velocity value.
+                    # This is perfect with plugins like infinite jumps and more.
+                    ignore_velocity: true
                     # Add VLs (Violation Levels) to apply when this check fails.
                     vls: 4
                 # Prevent player from send value "creativeMode" when this isn't
@@ -626,12 +707,12 @@ mechanics:
             #
             # This check also can detect some types of Fly, Step and VClip,
             # but can generate false flags, this don't has vls, only setback.
-            # WARNING! If you use a plugin for jumppads or double jump (etc.),
-            # disable this check, because you can get false flags too easy.
             pullback:
                 # Enable this feature?
                 enable:
-                    java: false
+                    java: true
+                    # Probably bedrock can get false flags with this check,
+                    # so is disabled by default.
                     bedrock: false
                 # Determine default values for speed Y change.
                 # You can use this to determine new Y value is too big
@@ -654,6 +735,9 @@ mechanics:
                 #
                 # "oldY-y"
                 default: -1.0
+                # Ignore players with velocity value.
+                # This is perfect with plugins like infinite jumps and more.
+                ignore_velocity: true
             # Checks to prevent potential hacks/disablers/crashers.
             checks:
                 # Prevent player from send an high value in X/Y/Z position.
