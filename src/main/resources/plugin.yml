@@ -1,0 +1,51 @@
+name: ${project.name}
+prefix: FA
+main: ${project.groupId}.${project.artifactId}.${project.name}
+author: NovaCraft254
+version: ${project.version}
+api-version: 1.21
+description: ${project.description}
+load: POSTWORLD
+website: https://www.spigotmc.org/resources/111260/
+folia-supported: true
+database: false
+softdepend:
+- DiscordSRV
+- ExecutableItems
+- Geyser-Spigot
+- packetevents
+- PlaceholderAPI
+- ProtocolSupport
+- SCore
+- VeinMiner
+- ViaVersion
+- ViaBackwards
+- ViaRewind
+- WeaponMechanics
+permissions:
+  foxac.notifications:
+    description: View notifications of any alert of the anticheat.
+    default: op
+  foxac.command:
+    description: Allow to use the main command.
+    default: op
+  foxac.bypass.*:
+    description: Bypass all modules of the anticheat.
+    default: false
+    children:
+      foxac.bypass.world: true
+      foxac.bypass.mechanics: true
+      foxac.bypass.badpackets: true
+  foxac.bypass.world:
+     description: Bypass World checks in FoxAddition.
+     default: false
+  foxac.bypass.mechanics:
+     description: Bypass Mechanics checks in FoxAddition.
+     default: false
+  foxac.bypass.badpackets:
+     description: Bypass BadPackets checks in FoxAddition.
+     default: false
+commands:
+  foxaddition:
+    description: View list of commands in FoxAddition.
+    permission: foxac.command
