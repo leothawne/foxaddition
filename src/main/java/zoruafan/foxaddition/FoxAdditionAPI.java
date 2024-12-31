@@ -190,7 +190,7 @@ public enum FoxAdditionAPI {
     }
     public int getPing(Player e) {
         PlayerManager pM = PacketEvents.getAPI().getPlayerManager();
-        return pM.getPing(e.getUniqueId()); 	
+        return pM.getPing(e);
     }
     public double getTPS() {
     	double[] tps = TPSUtil.getRecentTPS();
