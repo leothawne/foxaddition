@@ -32,23 +32,25 @@ public class BrandChecker extends FoxPlayer implements Listener, PluginMessageLi
 
     @Override
     public void onPluginMessageReceived(String channel, Player e, byte[] message) {
-    	if(!file.getBoolean(p+".enable", true)) return;
+        if(!file.getBoolean(p+".enable", true)) return;
         if ("minecraft:brand".equals(channel) || "MC|Brand".equals(channel)) {
-        	String originalMessage = new String(message, StandardCharsets.UTF_8).replace(" (Velocity)", "");
+            String originalMessage = new String(message, StandardCharsets.UTF_8).replace(" (Velocity)", "");
             brand = originalMessage.trim();
             if (!isAllowed(brand)) {
                 List<String> commands = file.getStringList(p+".commands");
                 for (String command : commands) {
-                	if(command.equals("[close]")) { closeConnection(e); return; }
-                	String cmd_1 = command.replace("{player}", e.getName()).replace("{brand}", brand);
-                	if (e != null) {
-                		Plugin placeholderAPI = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI");
-                		if (placeholderAPI != null && placeholderAPI.isEnabled()) cmd_1 = applyPlaceholderAPI(e, cmd_1);
-                	}
-                	final String cmd = cmd_1;
-                	FoliaScheduler.getGlobalRegionScheduler().run(api.getPlugin(), (FA) -> plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd));
+                    if(command.equals("[close]")) { closeConnection(e); return; }
+                    String cmd_1 = command.replace("{player}", e.getName()).replace("{brand}", brand);
+                    if (e != null) {
+                        Plugin placeholderAPI = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI");
+                        if (placeholderAPI != null && placeholderAPI.isEnabled()) cmd_1 = applyPlaceholderAPI(e, cmd_1);
+                    }
+                    final String cmd = cmd_1;
+                    FoliaScheduler.getGlobalRegionScheduler().run(api.getPlugin(), (FA) -> plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), cmd));
                 }
+                return;
             }
+            if(brand.equals(file.getString("bedrock.modules.brand.value", "Geyser"))) { this.player_bedrock = true; }
         }
     }
     

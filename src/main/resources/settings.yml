@@ -27,15 +27,15 @@ bedrock:
         # (Need to install Floodgate in your server for this
         # and for using options based in device)
         floodgate:
-            # If you modify this value, reload the server or use
-            # plugman to reload the plugin.
+            # Enable this feature?
             enable: true
             # Allow the usage of obtain device of the player?
             device: true
         # Detect the UUID of the player to detect if this is a bedrock
         # player.
         uuid:
-            enable: true
+            # Enable this feature? 
+            enable: false
         # You want determine a bedrock player with prefix?
         # This detect if this is a bedrock user with the prefix,
         # for this, you need configure a plugin for make bedrock
@@ -44,13 +44,23 @@ bedrock:
         # Enable this only if you server support bedrock
         # players.
         prefix:
-            # If you modify this value, reload the server or use
-            # plugman to reload the plugin.
+            # Enable this feature?
             enable: false
             # Determine here the prefix of bedrock players.
-            # If you modify this value, reload the server or use
-            # plugman to reload the plugin.
             value: '.'
+        # You want determine a bedrock player with Brand?
+        # This detect if this the user has "Geyser" brand, that
+        # can be spoofed too easy, please, consider using
+        # another method of above and don't use this, only if
+        # you're sure to use this!
+        #
+        # Enable this only if you server support bedrock
+        # players and you're aware that cheaters can spoof this!
+        brand:
+            # Enable this feature?
+            enable: false
+            # Determine here the brand name of bedrock players.
+            value: 'Geyser'
 
 # Brand Checker
 # Toggle the anticheat to detect brand of users when join, this can

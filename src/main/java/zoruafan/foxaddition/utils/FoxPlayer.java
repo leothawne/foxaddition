@@ -21,6 +21,7 @@ public class FoxPlayer implements Listener {
     private final HashMap<Player, Long> kickTC = new HashMap<Player, Long>();
     JavaPlugin plugin = api.getPlugin();
     private final HashMap<Player, Long> delays = new HashMap<Player, Long>();
+    public boolean player_bedrock = false;
     
     public void packetExceeded(Player e) {
     	disconnectPlayer(e, Component.translatable("disconnect.exceeded_packet_rate"));
